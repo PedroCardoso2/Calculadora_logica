@@ -111,3 +111,11 @@ img{
 #one{
     transform: rotate(180deg);
 }
+
+#true{
+    background-color: green;
+}
+
+#false{
+    background-color: red;
+}
