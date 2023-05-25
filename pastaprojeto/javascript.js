@@ -13,8 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const formulario = document.querySelector('form');
   formulario.addEventListener('submit', (event) => {
     event.preventDefault();
-    const resultado = calcular(expressao);
-    display.textContent = resultado;
+    if (event.submitter.value === 'Resultado') {
+      const resultado = calcular(expressao);
+      const tipoOperacao = obterTipoOperacao(expressao);
+      const mensagemResultado = `${expressao} é ${tipoOperacao}`;
+      display.textContent = mensagemResultado;
+    }
   });
 
   const resetar = document.querySelector('input[type="reset"]');
@@ -29,6 +33,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function calcular(expressao) {
-    return eval(expressao); 
+    try {
+      const resultado = eval(expressao); 
+      return resultado;
+    } catch (error) {
+      return 'Erro na expressão';
+    }
+  }
+
+  function obterTipoOperacao(expressao) {
+    const tipoOperacao = {
+      '&': 'Conjunção',
+      '∨': 'Disjunção',
+      '^': 'Disjunção Exclusiva',
+      '->': 'Implicação',
+      '<->': 'Bicondicional', //Vou corrigir esse botão depois, ta bugando no HTML 
+      '~': 'Negação',
+    };
+
+    const operadores = Object.keys(tipoOperacao);
+    const operadorEncontrado = operadores.find((operador) => expressao.includes(operador));
+
+    if (operadorEncontrado) {
+      return tipoOperacao[operadorEncontrado];
+    } else {
+      return 'Não é possível fazer essa operação! ';
+    }
   }
 });
