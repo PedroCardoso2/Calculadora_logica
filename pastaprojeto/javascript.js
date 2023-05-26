@@ -43,11 +43,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function obterTipoOperacao(expressao) {
     const tipoOperacao = {
-      '&': 'Conjunção',
+      '∧': 'Conjunção',
       '∨': 'Disjunção',
-      '^': 'Disjunção Exclusiva',
-      '->': 'Implicação',
-      '<->': 'Bicondicional', //Vou corrigir esse botão depois, ta bugando no HTML 
+      '->': 'Condicional',
+      '⇔': 'Bicondicional', //Vou corrigir esse botão depois, ta bugando no HTML 
       '~': 'Negação',
     };
 
