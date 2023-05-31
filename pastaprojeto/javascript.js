@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
     and: function(x, y) { return x && y },
     or: function(x, y) { return x || y },
     not: function(x) { return !x },
-    biconditional: function(x, y) { return (x && y) || (!x && !y) },
   }, { override: true });
 
   botoes.forEach((botao) => {
@@ -55,8 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
       expr = expr
         .replace(/\∧/g, ' and ')
         .replace(/\∨/g, ' or ')
-        .replace(/~/g, ' not ')
-        .replace(/⇔/g, ' biconditional ');
+        .replace(/~/g, ' not ');
+
+      while (expr.includes('⇔')) {
+        let startIdx = expr.indexOf('⇔');
+        let endIdx = startIdx;
+        while (startIdx > 0 && expr[startIdx - 1] !== '(') {
+          startIdx--;
+        }
+        while (endIdx < expr.length && expr[endIdx + 1] !== ')') {
+          endIdx++;
+        }
+        let biconditionalExpr = expr.slice(startIdx, endIdx + 1);
+        let [leftExpr, rightExpr] = biconditionalExpr.split('⇔');
+        let newExpr = '(' + leftExpr + ' and ' + rightExpr + ') or (' + 'not ' + leftExpr + ' and not ' + rightExpr + ')';
+        expr = expr.replace(biconditionalExpr, newExpr);
+      }
 
       let exprSplitted = expr.split("->");
       let exprWithImplicationHandled = exprSplitted[0];
