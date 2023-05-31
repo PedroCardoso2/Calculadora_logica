@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const display = document.getElementById('display');
   let expressao = '';
 
+  math.import({
+    and: function(x, y) { return x && y },
+    or: function(x, y) { return x || y },
+    not: function(x) { return !x },
+    biconditional: function(x, y) { return (x && y) || (!x && !y) },
+  }, { override: true });
+
   botoes.forEach((botao) => {
     botao.addEventListener('click', () => {
       const textoBotao = botao.textContent;
@@ -15,8 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     if (event.submitter.value === 'Resultado') {
       const resultado = calcular(expressao);
-      const tipoOperacao = obterTipoOperacao(expressao);
-      const mensagemResultado = `${expressao} é ${tipoOperacao}`;
+      const mensagemResultado = `O resultado de ${expressao} é ${resultado}`;
       display.textContent = mensagemResultado;
     }
   });
@@ -34,29 +40,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function calcular(expressao) {
     try {
-      const resultado = eval(expressao); 
-      return resultado;
+      const variaveis = {
+        'PV': 'true',
+        'PF': 'false',
+        'QV': 'true',
+        'QF': 'false',
+      };
+
+      let expr = expressao;
+      for (const variavel in variaveis) {
+        expr = expr.split(variavel).join(variaveis[variavel]);
+      }
+
+      expr = expr
+        .replace(/\∧/g, ' and ')
+        .replace(/\∨/g, ' or ')
+        .replace(/~/g, ' not ')
+        .replace(/⇔/g, ' biconditional ');
+
+      let exprSplitted = expr.split("->");
+      let exprWithImplicationHandled = exprSplitted[0];
+      for (let i = 1; i < exprSplitted.length; i++) {
+        exprWithImplicationHandled += " or not " + exprSplitted[i];
+      }
+
+      const resultado = math.evaluate(exprWithImplicationHandled);
+      return resultado ? 'V' : 'F';
     } catch (error) {
       return 'Erro na expressão';
-    }
-  }
-
-  function obterTipoOperacao(expressao) {
-    const tipoOperacao = {
-      '∧': 'Conjunção',
-      '∨': 'Disjunção',
-      '->': 'Condicional',
-      '⇔': 'Bicondicional',  
-      '~': 'Negação',
-    };
-
-    const operadores = Object.keys(tipoOperacao);
-    const operadorEncontrado = operadores.find((operador) => expressao.includes(operador));
-
-    if (operadorEncontrado) {
-      return tipoOperacao[operadorEncontrado];
-    } else {
-      return 'Não é possível fazer essa operação! ';
     }
   }
 });
