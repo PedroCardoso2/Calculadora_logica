@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       '∧': 'Conjunção',
       '∨': 'Disjunção',
       '->': 'Condicional',
-      '⇔': 'Bicondicional', //Vou corrigir esse botão depois, ta bugando no HTML 
+      '⇔': 'Bicondicional',  
       '~': 'Negação',
     };
 
