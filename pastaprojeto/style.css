@@ -130,3 +130,20 @@ img{
 #false{
     background-color: red;
 }
+
+.tabela-verdade {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabela-verdade th,
+  .tabela-verdade td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .tabela-verdade th {
+    background-color: #f2f2f2;
+  }
+  

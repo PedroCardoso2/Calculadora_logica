@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultado = calcular(expressao);
       const mensagemResultado = `O resultado de ${expressao} é ${resultado}`;
       display.textContent = mensagemResultado;
+
+      criarTabelaVerdade(expressao);
     }
   });
 
@@ -83,4 +85,76 @@ document.addEventListener('DOMContentLoaded', () => {
       return 'Erro na expressão';
     }
   }
+
+  function gerarCombinacoes(n) {
+    if (n === 1) {
+      return [['F'], ['V']];
+    } else {
+      let combinacoes = gerarCombinacoes(n - 1);
+      return [...combinacoes.map(combinacao => ['F', ...combinacao]), ...combinacoes.map(combinacao => ['V', ...combinacao])];
+    }
+  }
+  
+  function criarTabelaVerdade(expressao) {
+    const container = document.getElementById('tabela-verdade');
+    container.innerHTML = '';
+  
+    const table = document.createElement('table');
+    table.classList.add('tabela-verdade');
+  
+    let vars = [...new Set(expressao.match(/[A-Za-z]+/g))];
+  
+    let header = table.createTHead();
+    let row = header.insertRow();
+    for (let variavel of vars) {
+      let cell = row.insertCell();
+      cell.innerHTML = "<b>" + variavel + "</b>";
+    }
+    let cell = row.insertCell();
+    cell.innerHTML = "<b>" + expressao + "</b>";
+  
+    let combinacoes = gerarCombinacoes(vars.length);
+  
+    let expr = expressao;
+    expr = expr.replace(/∧/g, ' && ');
+    expr = expr.replace(/∨/g, ' || ');
+    expr = expr.replace(/~/g, ' !');
+    expr = expr.replace(/->/g, ' <= ');
+    expr = expr.replace(/⇔/g, ' === ');
+  
+    for (let combinacao of combinacoes) {
+      let row = table.insertRow();
+      let valorCombinacao = {};
+      for (let i = 0; i < vars.length; i++) {
+        let cell = row.insertCell();
+        cell.innerHTML = combinacao[i];
+        valorCombinacao[vars[i]] = combinacao[i] === 'V';
+      }
+  
+      let valorExpr = expr;
+      for (let variavel in valorCombinacao) {
+        let valor = valorCombinacao[variavel] ? "true" : "false";
+        valorExpr = valorExpr.split(variavel).join(valor);
+      }
+  
+      let valor = eval(valorExpr) ? 'V' : 'F';
+      let cell = row.insertCell();
+      cell.innerHTML = valor;
+    }
+  
+    container.appendChild(table);
+  }
+  
+  formulario.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (event.submitter.value === 'Resultado') {
+      const resultado = calcular(expressao);
+      const mensagemResultado = `O resultado de ${expressao} é ${resultado}`;
+      display.textContent = mensagemResultado;
+  
+      criarTabelaVerdade(expressao);
+    }
+  })  
+
 });
+
