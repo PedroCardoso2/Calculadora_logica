@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
   resetar.addEventListener('click', () => {
     expressao = '';
     display.textContent = '';
+    const container = document.getElementById('tabela-verdade');
+    container.innerHTML = '';
   });
 
   function adicionarAoDisplay(texto) {
@@ -42,10 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function calcular(expressao) {
     try {
       const variaveis = {
-        'PV': 'true',
-        'PF': 'false',
-        'QV': 'true',
-        'QF': 'false',
+        'P': 'true',
+        'P': 'false',
+        'Q': 'true',
+        'Q': 'false',
       };
 
       let expr = expressao;
