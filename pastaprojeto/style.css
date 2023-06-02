@@ -102,10 +102,10 @@ img{
 }
 
 .actions input{
-    background-color: #7989e3;
+    background-color: #010207;
     border: 1px solid #000;
-    width: 60px;
-    height: 20px;
+    width: 70px;
+    height: 25px;
     border-radius: 30px;
     color: #ffffff;
     box-shadow: 0.5px 0.5px 0.5px 0.5px #000;
@@ -115,20 +115,18 @@ img{
 
 .actions input:hover{
     font-size: 10.7px;
-    width: 65px;
-    height: 22px;
+    width: 70px;
+    height: 40px;
 }
 
 #one{
     transform: rotate(180deg);
 }
-
-#true{
-    background-color: green;
+#botao-variavel{
+    background-color: #2ab9e2;
 }
-
-#false{
-    background-color: red;
+#botao-variavel2{
+    background-color: #2ab9e2;
 }
 
 .tabela-verdade {

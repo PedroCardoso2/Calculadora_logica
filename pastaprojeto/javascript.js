@@ -124,6 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
     expr = expr.replace(/->/g, ' <= ');
     expr = expr.replace(/⇔/g, ' === ');
   
+    let todasAsSaidas = [];
+  
     for (let combinacao of combinacoes) {
       let row = table.insertRow();
       let valorCombinacao = {};
@@ -140,11 +142,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   
       let valor = eval(valorExpr) ? 'V' : 'F';
+      todasAsSaidas.push(valor);
       let cell = row.insertCell();
       cell.innerHTML = valor;
     }
   
-    container.appendChild(table);
+    if (todasAsSaidas.every(saida => saida === 'V')) {
+      display.textContent = 'Essa tabela é Tautologica';
+      container.appendChild(table);
+    } else if (todasAsSaidas.every(saida => saida === 'F')) {
+      display.textContent = 'Essa tabela é Contradição';
+      container.appendChild(table);
+    } else {
+      container.appendChild(table);
+    }
   }
   
   formulario.addEventListener('submit', (event) => {
