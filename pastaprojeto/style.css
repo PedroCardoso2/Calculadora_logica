@@ -133,16 +133,26 @@ img{
 .tabela-verdade {
     width: 100%;
     border-collapse: collapse;
+    margin-right: 25px;
   }
   
   .tabela-verdade th,
   .tabela-verdade td {
-    border: 1px solid black;
+    border: 2px solid black;
     padding: 8px;
     text-align: center;
+    margin: 0 auto;
+    border: 0 10px;
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+    
   }
+  
+
   
   .tabela-verdade th {
     background-color: #f2f2f2;
+    
   }
   
